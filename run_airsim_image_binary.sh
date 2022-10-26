@@ -8,10 +8,11 @@ UNREAL_BINARY_PATH=$(dirname $(readlink -f $2))
 UNREAL_BINARY_SHELL_ABSPATH=$(readlink -f $2)
 
 # this block is for running X apps in docker
+# an existing outdated file can break the script
 XAUTH=/tmp/.docker.xauth
 if [ ! -f $XAUTH ]
 then
-    xauth_list=$(xauth nlist :0 | sed -e 's/^..../ffff/')
+    xauth_list=$(xauth nlist ${DISPLAY} | sed -e 's/^..../ffff/')
     if [ ! -z "$xauth_list" ]
     then
         echo $xauth_list | xauth -f $XAUTH nmerge -
